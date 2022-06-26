@@ -1,7 +1,9 @@
+import PageRoutes from './PageRoutes'
+
 const App = () => {
   return (
     <div className="App">
-      <h1>App</h1>
+      <PageRoutes />
     </div>
   )
 }
