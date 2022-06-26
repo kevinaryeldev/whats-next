@@ -1,11 +1,5 @@
-import PageRoutes from './PageRoutes'
-
 const App = () => {
-  return (
-    <div className="App">
-      <PageRoutes />
-    </div>
-  )
+  return <div className="App"></div>
 }
 
 export default App
