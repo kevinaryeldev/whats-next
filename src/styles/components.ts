@@ -17,7 +17,8 @@ const components: Record<string, StyleConfig> = {
       borderRadius: 'xl',
       width: 'fit-content',
       gap: '0.25rem',
-      padding: ['0.25rem', '0.5rem'],
+      padding: ['0.25rem', '0.5rem', '0.75rem', '1rem'],
+      fontSize: ['md', 'lg', 'xl', '2xl'],
       bg: colorMode === 'dark' ? 'blueD.100' : 'blueL.100',
       color: colorMode == 'dark' ? 'gray.100' : 'gray.400',
       _hover: {
