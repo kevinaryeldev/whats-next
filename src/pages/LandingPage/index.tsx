@@ -2,9 +2,11 @@ import { Box, Heading, Text, useColorModeValue } from '@chakra-ui/react'
 import { ButtonNew, PageWrapper } from '../../components/chakraComponents'
 import LandingFooter from './components/Footer'
 import { FaEye } from 'react-icons/fa'
+import LandingNavBar from './components/NavBar'
 const LandingPage = () => {
   return (
     <>
+      <LandingNavBar />
       <PageWrapper
         as="section"
         display="flex"
@@ -26,18 +28,21 @@ const LandingPage = () => {
           <Heading fontSize={['3xl', '4xl', '5xl']} as="h1">
             KEVIN?
           </Heading>
-          <ButtonNew marginTop={['1.5rem', '2rem', '3rem']}>
-            Dar uma olhada <FaEye />
-          </ButtonNew>
+          <a href="/home">
+            <ButtonNew marginTop={['1.5rem', '2rem', '3rem']}>
+              Dar uma olhada <FaEye />
+            </ButtonNew>
+          </a>
         </Box>
         <Box
           display="flex"
+          alignSelf="flex-start"
           w={['100%', null, '50%']}
-          height={['50vh', null, '100vh']}
+          height={['50vh', null, '90vh']}
           bg={useColorModeValue('blueL.100', 'blueD.100')}
           justifyContent="center"
           alignItems="center"
-          borderBottomLeftRadius={{ lg: '3xl' }}
+          borderBottomLeftRadius={{ md: '3xl' }}
           boxShadow="dark-lg"
         >
           <Box
@@ -49,7 +54,7 @@ const LandingPage = () => {
             <Text
               as="h2"
               fontSize={['xl', '2xl', '3xl']}
-              color="gray.100"
+              color={useColorModeValue('gray.100', 'gray.400')}
               textAlign="center"
             >
               Já se perguntou no que eu estou trabalhando ou estudando
@@ -61,8 +66,27 @@ const LandingPage = () => {
           </Box>
         </Box>
       </PageWrapper>
-      <PageWrapper as="main"></PageWrapper>
-      <LandingFooter />
+      <PageWrapper
+        as="main"
+        alignItems="center"
+        flexDir="column"
+        paddingTop="40"
+        justifyContent="space-between"
+        display="flex"
+      >
+        <Box width="80%">
+          <Text
+            as="h2"
+            fontSize={['xl', '2xl', '3xl']}
+            color={useColorModeValue('gray.100', 'gray.400')}
+            textAlign="center"
+          >
+            Um jeito simples e eficaz de fazer um acompanhamento dos meus
+            progressos na área de programação.
+          </Text>
+        </Box>
+        <LandingFooter />
+      </PageWrapper>
     </>
   )
 }
