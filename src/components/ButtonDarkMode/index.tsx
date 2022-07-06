@@ -1,9 +1,13 @@
 import { Button, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { BsSun, BsMoonStarsFill } from 'react-icons/bs'
-const ButtonDarkMode = () => {
+import { ButtonNavProps } from '../../utils/interface'
+
+const ButtonDarkMode = (props: ButtonNavProps) => {
   const { colorMode, toggleColorMode } = useColorMode()
   return (
     <Button
+      size={props.size}
+      display={props.display}
       aria-label="Toggle Color Mode"
       onClick={toggleColorMode}
       background={useColorModeValue('blueL.100', 'blueD.100')}
