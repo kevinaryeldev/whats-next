@@ -8,3 +8,7 @@ export interface ButtonNavProps extends HTMLChakraProps<'button'> {
   size?: string | (string | null)[]
   display?: string | (string | null)[]
 }
+export interface DataLogin {
+  email?: string
+  password?: string
+}
