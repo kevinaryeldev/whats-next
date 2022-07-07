@@ -1,16 +1,18 @@
-import { IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react'
-import { SiGithub } from 'react-icons/si'
+import { IconButton } from '@chakra-ui/react'
+import { BiLogIn } from 'react-icons/bi'
+import { Link } from 'react-router-dom'
+import { useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { ButtonNavProps } from '../../utils/interface'
 
-const ButtonRepository = (props: ButtonNavProps) => {
+const ButtonLogin = (props: ButtonNavProps) => {
   const { colorMode } = useColorMode()
   return (
-    <a href="https://github.com/kevinaryeldev/whats-next" target="_blank">
+    <Link to={'/login'}>
       <IconButton
-        size={props.size}
         display={props.display}
+        size={props.size}
         aria-label="github"
-        icon={<SiGithub />}
+        icon={<BiLogIn />}
         background={useColorModeValue('blueL.100', 'blueD.100')}
         color={useColorModeValue('gray.400', 'gray.100')}
         _hover={{
@@ -20,7 +22,7 @@ const ButtonRepository = (props: ButtonNavProps) => {
           bg: colorMode === 'light' ? 'blueL.300' : 'blueD.300',
         }}
       />
-    </a>
+    </Link>
   )
 }
-export default ButtonRepository
+export default ButtonLogin
