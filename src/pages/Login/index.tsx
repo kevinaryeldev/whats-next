@@ -19,10 +19,11 @@ import { ButtonNew, PageWrapper } from '../../components/chakraComponents'
 import loginSchema from '../../utils/shemas/login'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { DataLogin } from '../../utils/interface'
-import { useAppDispatch } from '../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { login } from '../../app/features/admin/adminSlice'
+import img from './../../assets/img/Img.png'
 
 const Login = () => {
   const {
@@ -33,12 +34,15 @@ const Login = () => {
     resolver: yupResolver(loginSchema),
   })
 
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const selector = useAppSelector((state) => state.user)
 
   const [viewPassword, setViewPassword] = useState(false)
   const handleShowPassword = () => setViewPassword((prev) => !prev)
-  const submitLogin = (data: DataLogin) => {
-    dispatch(login(data))
+  const submitLogin = async (data: DataLogin) => {
+    await dispatch(login(data))
+    selector.status.login === 'sucess' && navigate('/home')
   }
   return (
     <PageWrapper>
@@ -128,13 +132,7 @@ const Login = () => {
           </Stack>
         </Flex>
         <Flex flex={1}>
-          <Image
-            alt={'Login Image'}
-            objectFit={'cover'}
-            src={
-              'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80'
-            }
-          />
+          <Image alt={'Login Image'} objectFit={'cover'} src={img} />
         </Flex>
       </Stack>
     </PageWrapper>

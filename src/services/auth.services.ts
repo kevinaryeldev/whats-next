@@ -1,5 +1,6 @@
 import { DataLogin } from '../utils/interface'
 import { api } from './api'
+import authHeader from './auth.header'
 
 const login = (data: DataLogin) => {
   return api.post('signin', data).then((response) => {
@@ -13,6 +14,12 @@ const login = (data: DataLogin) => {
   })
 }
 
+const update = (data: DataLogin) => {
+  return api.patch('user', data, authHeader()).then((response) => {
+    return response.data
+  })
+}
+
 const logout = () => {
   localStorage.removeItem('@whatsNext-userToken')
 }
@@ -20,5 +27,6 @@ const logout = () => {
 const authService = {
   login,
   logout,
+  update,
 }
 export default authService
