@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import authService from '../../../services/auth.services'
-import { DataLogin } from '../../../utils/interface'
+import { DataLogin, DataRegister } from '../../../utils/interface'
 
 interface userState {
   user: {}
   status: {
     login: 'idle' | 'loading' | 'sucess' | 'failed'
     update: 'idle' | 'loading' | 'sucess' | 'failed'
+    register: 'idle' | 'loading' | 'sucess' | 'failed'
   }
   error?: string
   isLoggedIn: boolean
@@ -17,6 +18,7 @@ const initialState = {
   status: {
     login: 'idle',
     update: 'idle',
+    register: 'idle',
   },
   isLoggedIn: false,
 } as userState
@@ -26,6 +28,18 @@ export const login = createAsyncThunk(
   async (data: DataLogin, thunkApi) => {
     return await authService
       .login(data)
+      .then((response) => {
+        return response
+      })
+      .catch((e) => thunkApi.rejectWithValue(e.response.data))
+  }
+)
+
+export const registerUser = createAsyncThunk(
+  'auth/register',
+  async (data: DataRegister, thunkApi) => {
+    return await authService
+      .register(data)
       .then((response) => {
         return response
       })
@@ -53,12 +67,25 @@ export const userSlice = createSlice({
     builder.addCase(login.fulfilled, (state, { payload }) => {
       state.status.login = 'sucess'
       payload.user && (state.user = payload.user)
+      state.isLoggedIn = true
     })
     builder.addCase(login.pending, (state) => {
       state.status.login = 'loading'
     })
     builder.addCase(login.rejected, (state, { payload }) => {
       state.status.login = 'failed'
+      payload && (state.error = payload)
+    })
+    builder.addCase(registerUser.fulfilled, (state, { payload }) => {
+      state.status.register = 'sucess'
+      payload.user && (state.user = payload.user)
+      state.isLoggedIn = true
+    })
+    builder.addCase(registerUser.pending, (state) => {
+      state.status.register = 'loading'
+    })
+    builder.addCase(registerUser.rejected, (state, { payload }) => {
+      state.status.register = 'failed'
       payload && (state.error = payload)
     })
     builder.addCase(updateUser.fulfilled, (state, { payload }) => {
