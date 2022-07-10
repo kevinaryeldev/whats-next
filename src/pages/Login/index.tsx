@@ -21,7 +21,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { DataLogin } from '../../utils/interface'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { login } from '../../app/features/admin/adminSlice'
-import img from './../../assets/img/Img.png'
 import LoginRegister from '../../components/LoginRegister'
 
 const Login = () => {
@@ -40,8 +39,9 @@ const Login = () => {
   const [viewPassword, setViewPassword] = useState(false)
   const handleShowPassword = () => setViewPassword((prev) => !prev)
   const submitLogin = async (data: DataLogin) => {
-    await dispatch(login(data))
-    selector.status.login === 'sucess' && navigate('/home')
+    await dispatch(login(data)).then(() => {
+      selector.status.login === 'sucess' && navigate('/home')
+    })
   }
   return (
     <LoginRegister>
@@ -58,11 +58,11 @@ const Login = () => {
         boxShadow={'2xl'}
         onSubmit={handleSubmit(submitLogin)}
       >
-        <Heading fontSize={'3xl'} color={'gray.100'}>
+        <Heading fontSize={['xl', '2xl', '3xl']} color={'gray.100'}>
           Login
         </Heading>
         <FormControl id="email" isInvalid={errors.email}>
-          <FormLabel fontSize={'lg'} color={'gray.100'}>
+          <FormLabel fontSize={['md', 'lg']} color={'gray.100'}>
             Email:
           </FormLabel>
           <Input
@@ -72,7 +72,11 @@ const Login = () => {
             {...register('email')}
           />
           {!errors.email ? (
-            <FormHelperText color={'gray.100'} fontWeight={'semibold'}>
+            <FormHelperText
+              color={'gray.100'}
+              fontWeight={'semibold'}
+              fontSize={'sm'}
+            >
               Digite seu E-mail.
             </FormHelperText>
           ) : (
@@ -113,13 +117,14 @@ const Login = () => {
             </FormErrorMessage>
           )}
         </FormControl>
-        <Stack spacing={6}>
+        <Stack spacing={[2, 4, 6]}>
           <Stack
-            direction={{ base: 'column', sm: 'row' }}
+            direction={'row'}
             align={'start'}
             justify={'space-between'}
             color="blue.500"
           >
+            <Link to={'/register'}>Cadastrar-se</Link>
             <Link to={'/'}>Voltar</Link>
           </Stack>
           <ButtonNew type="submit" padding="2" w={'full'}>
