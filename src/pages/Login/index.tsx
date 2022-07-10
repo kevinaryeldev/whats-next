@@ -34,13 +34,13 @@ const Login = () => {
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const selector = useAppSelector((state) => state.user)
+  const userSelector = useAppSelector((state) => state.user)
 
   const [viewPassword, setViewPassword] = useState(false)
   const handleShowPassword = () => setViewPassword((prev) => !prev)
   const submitLogin = async (data: DataLogin) => {
     await dispatch(login(data)).then(() => {
-      selector.status.login === 'sucess' && navigate('/home')
+      userSelector.status.login === 'sucess' && navigate('/home')
     })
   }
   return (
