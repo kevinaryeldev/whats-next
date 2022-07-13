@@ -1,8 +1,9 @@
 import { Box, Heading, Text, useColorModeValue } from '@chakra-ui/react'
 import { ButtonNew, PageWrapper } from '../../components/chakraComponents'
 import LandingFooter from './components/Footer'
-import { FaEye } from 'react-icons/fa'
+import { MdOutlinePersonAddAlt } from 'react-icons/md'
 import LandingNavBar from './components/NavBar'
+import { Link } from 'react-router-dom'
 const LandingPage = () => {
   return (
     <>
@@ -23,16 +24,18 @@ const LandingPage = () => {
           paddingLeft={['4', '8', '12']}
         >
           <Heading as="h1" fontSize={['3xl', '4xl', '5xl']}>
-            WHATS NEXT,
+            WHATS NEXT
           </Heading>
-          <Heading fontSize={['3xl', '4xl', '5xl']} as="h1">
-            KEVIN?
+          <Heading fontSize={['2xl', '3xl', '4xl']} as="h1">
+            Sua nova To Do List
           </Heading>
-          <a href="/home">
-            <ButtonNew marginTop={['1.5rem', '2rem', '3rem']}>
-              Dar uma olhada <FaEye />
-            </ButtonNew>
-          </a>
+          <Box maxWidth="fit-content">
+            <Link to="/register">
+              <ButtonNew marginTop={['1.5rem', '2rem', '3rem']}>
+                Faça seu cadastro <MdOutlinePersonAddAlt />
+              </ButtonNew>
+            </Link>
+          </Box>
         </Box>
         <Box
           display="flex"
@@ -57,11 +60,8 @@ const LandingPage = () => {
               color={useColorModeValue('gray.100', 'gray.400')}
               textAlign="center"
             >
-              Já se perguntou no que eu estou trabalhando ou estudando
-              recentemente? Bem, eu fiz essa aplicação pra te responder! {''}
-              <Text as="span" textDecor="line-through">
-                talvez
-              </Text>
+              Um jeito simples e eficaz de fazer um acompanhamento das suas
+              atividades e progressos.
             </Text>
           </Box>
         </Box>
@@ -80,10 +80,7 @@ const LandingPage = () => {
             fontSize={['xl', '2xl', '3xl']}
             color={useColorModeValue('gray.100', 'gray.400')}
             textAlign="center"
-          >
-            Um jeito simples e eficaz de fazer um acompanhamento dos meus
-            progressos na área de programação.
-          </Text>
+          ></Text>
         </Box>
         <LandingFooter />
       </PageWrapper>
