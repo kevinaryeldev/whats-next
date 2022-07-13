@@ -5,7 +5,6 @@ import { useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { ButtonNavProps } from '../../utils/interface'
 import authServices from './../../services/auth.services'
 import { useAppDispatch } from '../../app/hooks'
-import { reset } from '../../app/features/admin/adminSlice'
 
 interface ButtonLoginLogoutProps extends ButtonNavProps {
   login?: boolean
@@ -17,7 +16,6 @@ const ButtonLoginLogout = (props: ButtonLoginLogoutProps) => {
 
   const logout = async () => {
     authServices.logout()
-    setTimeout(() => dispatch(reset), 5000)
   }
   return (
     <Link to={props.login ? '/login' : '/'}>

@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { AxiosError, AxiosResponse } from 'axios'
 import authService from '../../../services/auth.services'
 import { DataLogin, DataRegister } from '../../../utils/interface'
 
@@ -15,12 +14,12 @@ interface userState {
     update: 'idle' | 'loading' | 'sucess' | 'failed'
     register: 'idle' | 'loading' | 'sucess' | 'failed'
   }
-  error?: string
+  error?: any
   isLoggedIn: boolean
 }
 
 const initialState = {
-  user: await authService.getUserData(),
+  user: {},
   status: {
     login: 'idle',
     update: 'idle',
@@ -34,10 +33,10 @@ export const login = createAsyncThunk(
   async (data: DataLogin, thunkApi) => {
     return await authService
       .login(data)
-      .then((response: AxiosResponse) => {
+      .then((response) => {
         return response
       })
-      .catch((e: AxiosError) => thunkApi.rejectWithValue(e.response?.data))
+      .catch((e) => thunkApi.rejectWithValue(e.response?.data))
   }
 )
 
@@ -46,10 +45,10 @@ export const registerUser = createAsyncThunk(
   async (data: DataRegister, thunkApi) => {
     return await authService
       .register(data)
-      .then((response: AxiosResponse) => {
+      .then((response) => {
         return response
       })
-      .catch((e: AxiosError) => thunkApi.rejectWithValue(e.response?.data))
+      .catch((e) => thunkApi.rejectWithValue(e.response?.data))
   }
 )
 
@@ -58,19 +57,25 @@ export const updateUser = createAsyncThunk(
   async (data: DataLogin, thunkApi) => {
     return await authService
       .update(data)
-      .then((response: AxiosResponse) => {
+      .then((response) => {
         return response
       })
-      .catch((e: AxiosError) => thunkApi.rejectWithValue(e.response?.data))
+      .catch((e) => thunkApi.rejectWithValue(e.response?.data))
+  }
+)
+export const getUserdata = createAsyncThunk(
+  'auth/userData',
+  async (thunkApi) => {
+    return await authService.getUserData().then((response) => {
+      return response
+    })
   }
 )
 
 export const userSlice = createSlice({
   name: 'users',
   initialState: initialState,
-  reducers: {
-    reset: (state) => initialState,
-  },
+  reducers: {},
   extraReducers(builder) {
     builder.addCase(login.fulfilled, (state, { payload }) => {
       state.status.login = 'sucess'
@@ -107,9 +112,10 @@ export const userSlice = createSlice({
     builder.addCase(updateUser.rejected, (state, { payload }) => {
       state.status.update = 'failed'
     })
+    builder.addCase(getUserdata.fulfilled, (state, { payload }) => {
+      state.user = payload
+    })
   },
 })
-
-export const { reset } = userSlice.actions
 
 export default userSlice.reducer

@@ -26,3 +26,4 @@ dist-ssr
 # Sensible Data
 
 /src/config.ts
+.vercel
