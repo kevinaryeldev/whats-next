@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/react'
 import ButtonDarkMode from '../../../../components/ButtonDarkMode'
+import ButtonLoginLogout from '../../../../components/ButtonLoginLogout'
 import ButtonRepository from '../../../../components/ButtonRepository'
 const LandingNavBar = () => {
   return (
@@ -13,6 +14,7 @@ const LandingNavBar = () => {
     >
       <ButtonDarkMode />
       <ButtonRepository />
+      <ButtonLoginLogout login />
     </Box>
   )
 }

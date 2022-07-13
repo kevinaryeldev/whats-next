@@ -1,4 +1,5 @@
 import {
+  Button,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -9,6 +10,7 @@ import {
   InputGroup,
   InputRightElement,
   Stack,
+  useToast,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
@@ -21,7 +23,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useReducer } from 'react'
 import { DataRegister } from '../../utils/interface'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { registerUser } from '../../app/features/admin/adminSlice'
+import { registerUser, userSlice } from '../../app/features/admin/adminSlice'
 
 const Register = () => {
   enum ShowPasswordCase {
@@ -67,13 +69,29 @@ const Register = () => {
       showPasswordConfirm: false,
     }
   )
+  const toast = useToast()
   const dispatch = useAppDispatch()
   const userSelector = useAppSelector((state) => state.user)
   const navigate = useNavigate()
-  const submitLogin = async (data: DataRegister) => {
+  const submitRegister = async (data: DataRegister) => {
     data.passwordConfirm && delete data.passwordConfirm
     await dispatch(registerUser(data)).then(() => {
-      userSelector.isLoggedIn === true && navigate('/home')
+      setTimeout(() => {
+        userSelector.isLoggedIn
+          ? toast({
+              title: 'Cadastro bem sucedido',
+              description: 'Você será redirecionado em breve',
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+            }) && navigate('/dashboard')
+          : toast({
+              title: 'Erro no cadastro',
+              description: userSelector?.error,
+              status: 'error',
+              isClosable: true,
+            })
+      }, 100)
     })
   }
 
@@ -90,7 +108,7 @@ const Register = () => {
         borderColor={useColorModeValue('gray.300', 'gray.200')}
         borderRadius="3xl"
         boxShadow={'2xl'}
-        onSubmit={handleSubmit(submitLogin)}
+        onSubmit={handleSubmit(submitRegister)}
       >
         <Heading fontSize={'3xl'} color={'gray.100'}>
           Login
