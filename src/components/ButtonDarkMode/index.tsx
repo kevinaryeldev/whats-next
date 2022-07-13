@@ -6,6 +6,7 @@ const ButtonDarkMode = (props: ButtonNavProps) => {
   const { colorMode, toggleColorMode } = useColorMode()
   return (
     <Button
+      w={props.w}
       size={props.size}
       display={props.display}
       aria-label="Toggle Color Mode"

@@ -7,6 +7,7 @@ const ButtonRepository = (props: ButtonNavProps) => {
   return (
     <a href="https://github.com/kevinaryeldev/whats-next" target="_blank">
       <IconButton
+        w={props.w}
         size={props.size}
         display={props.display}
         aria-label="github"
