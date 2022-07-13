@@ -10,6 +10,8 @@ import {
   IconButton,
   FormErrorMessage,
   FormHelperText,
+  useToast,
+  Button,
 } from '@chakra-ui/react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { useForm } from 'react-hook-form'
@@ -35,12 +37,27 @@ const Login = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const userSelector = useAppSelector((state) => state.user)
-
+  const toast = useToast()
   const [viewPassword, setViewPassword] = useState(false)
   const handleShowPassword = () => setViewPassword((prev) => !prev)
   const submitLogin = async (data: DataLogin) => {
     await dispatch(login(data)).then(() => {
-      userSelector.status.login === 'sucess' && navigate('/home')
+      setTimeout(() => {
+        userSelector.isLoggedIn
+          ? toast({
+              title: 'Login bem sucedido',
+              description: 'Você está sendo redirecionado',
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+            }) && navigate('/dashboard')
+          : toast({
+              title: 'Erro no login',
+              description: userSelector?.error,
+              status: 'error',
+              isClosable: true,
+            })
+      }, 100)
     })
   }
   return (
@@ -127,9 +144,20 @@ const Login = () => {
             <Link to={'/register'}>Cadastrar-se</Link>
             <Link to={'/'}>Voltar</Link>
           </Stack>
-          <ButtonNew type="submit" padding="2" w={'full'}>
-            Entrar
-          </ButtonNew>
+          {userSelector.status.login === 'loading' ? (
+            <Button
+              padding="2"
+              w="full"
+              isLoading
+              loadingText="Logando..."
+              colorScheme=""
+              variant="outline"
+            ></Button>
+          ) : (
+            <ButtonNew type="submit" padding="2" w={'full'}>
+              Entrar
+            </ButtonNew>
+          )}
         </Stack>
       </Stack>
     </LoginRegister>
