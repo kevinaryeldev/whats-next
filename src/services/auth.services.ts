@@ -19,7 +19,7 @@ const login = (data: DataLogin) => {
 const register = (data: DataRegister) => {
   return api.post('register', data).then((response) => {
     if (response.data.accessToken) {
-      saveToken(response.data.accessToken, response.data.id)
+      saveToken(response.data.accessToken, response.data.user.id)
     }
     return response.data
   })
