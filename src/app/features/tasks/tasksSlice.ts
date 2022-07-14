@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { AxiosError, AxiosResponse } from 'axios'
 import { api } from '../../../services/api'
 import authHeader from '../../../services/auth.header'
 import dataServices from '../../../services/data.services'
@@ -32,10 +31,10 @@ export const createTask = createAsyncThunk(
   async (data: any, thunkApi) => {
     return await api
       .post('/tasks', data, authHeader())
-      .then((response: AxiosResponse) => {
-        return response
+      .then((response) => {
+        return
       })
-      .catch((e: AxiosError) => thunkApi.rejectWithValue(e.response?.data))
+      .catch((e) => thunkApi.rejectWithValue(e.response?.data))
   }
 )
 export const fetchTasks = createAsyncThunk('tasks/get', async (thunkApi) => {
