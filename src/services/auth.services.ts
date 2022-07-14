@@ -56,7 +56,7 @@ const getUserData = async () => {
         return resp.data
       })
       .catch((e) => {
-        logout
+        logout()
         return {}
       })
   }
