@@ -16,14 +16,14 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { createTask } from '../../../../app/features/tasks/tasksSlice'
-import { useAppDispatch } from '../../../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
 import { getId } from '../../../../services/auth.header'
 import { createTaskSchema } from '../../../../utils/shemas/tasks'
 
 const TaskCreate = (props: any) => {
+  const taskSelector = useAppSelector((state) => state.tasks)
   const {
     register,
     handleSubmit,
@@ -93,11 +93,17 @@ const TaskCreate = (props: any) => {
             </FormControl>
             <FormControl id="status" colorScheme="messenger">
               <FormLabel fontSize={['md', 'lg']}>Status</FormLabel>
-              <RadioGroup defaultValue={'Em Andamento'} {...register('status')}>
+              <RadioGroup defaultValue={'Em Andamento'}>
                 <Stack direction={['column', 'row']}>
-                  <Radio value="Em Andamento">Em Andamento</Radio>
-                  <Radio value="Concluida">Concluida</Radio>
-                  <Radio value="Cancelada">Cancelada</Radio>
+                  <Radio {...register('status')} value="Em Andamento">
+                    Em Andamento
+                  </Radio>
+                  <Radio {...register('status')} value="Concluida">
+                    Concluida
+                  </Radio>
+                  <Radio {...register('status')} value="Cancelada">
+                    Cancelada
+                  </Radio>
                 </Stack>
               </RadioGroup>
               {!!errors.staus && (
@@ -125,9 +131,13 @@ const TaskCreate = (props: any) => {
               )}
             </FormControl>
             <Center gap="5">
-              <Button type="submit" colorScheme={'facebook'}>
-                Criar Tarefa
-              </Button>
+              {taskSelector.status === 'loading' ? (
+                <Button colorScheme="facebook" isLoading />
+              ) : (
+                <Button type="submit" colorScheme={'facebook'}>
+                  Criar Tarefa
+                </Button>
+              )}
               <Button colorScheme={'blue'} onClick={props.onClose} mr={3}>
                 Cancelar
               </Button>
