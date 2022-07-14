@@ -24,8 +24,8 @@ const Dashboard = () => {
       <DashboardHeader taskModal={taskModal} />
       <DashboardNav />
       <Box as="main" display="flex" flexWrap="wrap" paddingX="10" paddingY="12">
-        {tasksSelector.tasks.map((el, index) => (
-          <TaskCard el={el} key={`Task${index}`} />
+        {tasksSelector.tasks.map((el) => (
+          <TaskCard task={el} key={`Task${el.id}`} />
         ))}
         <TaskCreate isOpen={taskModal.isOpen} onClose={taskModal.onClose} />
       </Box>
