@@ -12,13 +12,13 @@ import {
   FormHelperText,
   useToast,
   Button,
+  LightMode,
 } from '@chakra-ui/react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { useForm } from 'react-hook-form'
-import { ButtonNew } from '../../components/chakraComponents'
 import loginSchema from '../../utils/shemas/login'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { DataLogin } from '../../utils/interface'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
@@ -41,33 +41,39 @@ const Login = () => {
   const [viewPassword, setViewPassword] = useState(false)
   const handleShowPassword = () => setViewPassword((prev) => !prev)
   const submitLogin = async (data: DataLogin) => {
-    await dispatch(login(data)).then(() => {
-      setTimeout(() => {
-        userSelector.isLoggedIn
-          ? toast({
-              title: 'Login bem sucedido',
-              description: 'Você está sendo redirecionado',
-              status: 'success',
-              duration: 3000,
-              isClosable: true,
-            }) && navigate('/dashboard')
-          : toast({
-              title: 'Erro no login',
-              description: userSelector?.error,
-              status: 'error',
-              isClosable: true,
-            })
-      }, 100)
-    })
+    await dispatch(login(data))
   }
+
+  useEffect(() => {
+    if (userSelector.status?.login === 'sucess') {
+      toast({
+        title: 'Login bem sucedido',
+        description: 'Você está sendo redirecionado',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+      setTimeout(() => {
+        navigate('/dashboard')
+      }, 500)
+    } else if (userSelector.status.login === 'failed') {
+      toast({
+        title: 'Erro no login',
+        description: userSelector?.error,
+        status: 'error',
+        isClosable: true,
+      })
+    }
+  }, [userSelector.status.login])
+
   return (
     <LoginRegister>
       <Stack
         as={'form'}
-        spacing={4}
+        spacing={[2, 4, 5]}
         w={'full'}
         maxW={'md'}
-        padding={['2rem', '3rem', '4rem']}
+        padding={['1.5rem', '2rem', '2.5rem']}
         border="1px solid"
         background={'gray.400'}
         borderColor={useColorModeValue('gray.300', 'gray.200')}
@@ -75,7 +81,7 @@ const Login = () => {
         boxShadow={'2xl'}
         onSubmit={handleSubmit(submitLogin)}
       >
-        <Heading fontSize={['xl', '2xl', '3xl']} color={'gray.100'}>
+        <Heading fontSize={['md', '2xl', '3xl']} color={'gray.100'}>
           Login
         </Heading>
         <FormControl id="email" isInvalid={errors.email}>
@@ -83,37 +89,39 @@ const Login = () => {
             Email:
           </FormLabel>
           <Input
+            size={['xs', 'sm', 'md']}
             type="email"
             borderColor="teal"
             autoComplete="email"
             {...register('email')}
           />
           {!errors.email ? (
-            <FormHelperText
-              color={'gray.100'}
-              fontWeight={'semibold'}
-              fontSize={'sm'}
-            >
+            <FormHelperText color={'gray.100'} fontSize={['xs', 'sm']}>
               Digite seu E-mail.
             </FormHelperText>
           ) : (
-            <FormErrorMessage color={'alertL.100'}>
+            <FormErrorMessage
+              color={'alertL.100'}
+              fontSize={['xs', 'sm']}
+              fontWeight={'semibold'}
+            >
               {errors.email.message}
             </FormErrorMessage>
           )}
         </FormControl>
         <FormControl id="password" isInvalid={errors.password}>
-          <FormLabel fontSize={'lg'} color={'gray.100'}>
+          <FormLabel fontSize={['md', 'lg']} color={'gray.100'}>
             Senha:
           </FormLabel>
           <InputGroup>
             <Input
+              size={['xs', 'sm', 'md']}
               type={viewPassword ? 'text' : 'password'}
               borderColor="teal"
               autoComplete="current-password"
               {...register('password')}
             />
-            <InputRightElement width="3rem">
+            <InputRightElement height={'full'}>
               <IconButton
                 _hover={{ background: 'inherit' }}
                 _active={{ background: 'inherit' }}
@@ -125,11 +133,15 @@ const Login = () => {
             </InputRightElement>
           </InputGroup>
           {!errors.password ? (
-            <FormHelperText color={'gray.100'} fontWeight={'semibold'}>
+            <FormHelperText color={'gray.100'} fontSize={['xs', 'sm']}>
               Letras, números e símbolos
             </FormHelperText>
           ) : (
-            <FormErrorMessage color={'alertL.100'}>
+            <FormErrorMessage
+              color={'alertL.100'}
+              fontWeight={'semibold'}
+              fontSize={['xs', 'sm']}
+            >
               {errors.password.message}
             </FormErrorMessage>
           )}
@@ -144,20 +156,28 @@ const Login = () => {
             <Link to={'/register'}>Cadastrar-se</Link>
             <Link to={'/'}>Voltar</Link>
           </Stack>
-          {userSelector.status.login === 'loading' ? (
-            <Button
-              padding="2"
-              w="full"
-              isLoading
-              loadingText="Logando..."
-              colorScheme=""
-              variant="outline"
-            ></Button>
-          ) : (
-            <ButtonNew type="submit" padding="2" w={'full'}>
-              Entrar
-            </ButtonNew>
-          )}
+          <LightMode>
+            {userSelector.status.login === 'loading' ? (
+              <Button
+                padding="2"
+                w="full"
+                isLoading
+                loadingText="Logando..."
+                colorScheme="blue"
+                variant="outline"
+              ></Button>
+            ) : (
+              <Button
+                type="submit"
+                padding="2"
+                w="full"
+                variant="solid"
+                colorScheme="blue"
+              >
+                Entrar
+              </Button>
+            )}
+          </LightMode>
         </Stack>
       </Stack>
     </LoginRegister>
