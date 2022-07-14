@@ -7,6 +7,7 @@ const components: Record<string, StyleConfig> = {
       width: '100%',
       height: 'fit-content',
       minH: '100vh',
+      minW: '320px',
     }),
   },
   ButtonNew: {
