@@ -9,7 +9,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Radio,
@@ -36,8 +35,9 @@ const TaskCreate = (props: any) => {
   const submitTask = (data: any) => {
     data.userId = getId()
     dispatch(createTask(data))
+    console.log(data)
   }
-  const [value, setValue] = useState('1')
+
   return (
     <>
       <Modal
@@ -93,8 +93,8 @@ const TaskCreate = (props: any) => {
             </FormControl>
             <FormControl id="status" colorScheme="messenger">
               <FormLabel fontSize={['md', 'lg']}>Status</FormLabel>
-              <RadioGroup onChange={setValue} value={value}>
-                <Stack direction={['column', 'row']} {...register('status')}>
+              <RadioGroup defaultValue={'Em Andamento'} {...register('status')}>
+                <Stack direction={['column', 'row']}>
                   <Radio value="Em Andamento">Em Andamento</Radio>
                   <Radio value="Concluida">Concluida</Radio>
                   <Radio value="Cancelada">Cancelada</Radio>
