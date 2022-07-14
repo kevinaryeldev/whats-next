@@ -17,9 +17,7 @@ import {
   useColorModeValue,
   VStack,
   useDisclosure,
-  useColorMode,
   Text,
-  UseDisclosureProps,
 } from '@chakra-ui/react'
 import { AiOutlineMenu } from 'react-icons/ai'
 import { RiMenuAddFill } from 'react-icons/ri'
@@ -83,16 +81,16 @@ const DashboardHeader = ({ taskModal }: any) => {
                 justifySelf="self-start"
                 onClick={mobileNav.onClose}
               />
-              <ButtonLoginLogout w="80vw" />
-              <ButtonDarkMode w="80vw" />
-              <ButtonRepository w="80vw" />
               <Button
                 colorScheme={'facebook'}
-                w="80vw"
                 leftIcon={<RiMenuAddFill />}
+                onClick={taskModal.onOpen}
               >
                 Criar Tarefa
               </Button>
+              <ButtonLoginLogout w="80vw" />
+              <ButtonDarkMode w="80vw" />
+              <ButtonRepository w="80vw" />
             </VStack>
           </Box>
           <Link href="/" title="HomePage" display="flex" alignItems="center">
