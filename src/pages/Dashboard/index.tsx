@@ -14,7 +14,7 @@ const Dashboard = () => {
   const tasksSelector = useAppSelector((state) => state.tasks)
 
   useEffect(() => {
-    if (tasksSelector.status === 'idle') {
+    if (tasksSelector.status.fetch === 'idle') {
       dispatch(fetchTasks())
     }
   }, [tasksSelector.status, dispatch])
