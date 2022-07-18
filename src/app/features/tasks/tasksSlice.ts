@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { api } from '../../../services/api'
-import authHeader from '../../../services/auth.header'
+import { authHeader } from '../../../services/auth.header'
 import dataServices from '../../../services/data.services'
+import { asyncStatus } from '../../../utils/interface'
 
 interface taskState {
   tasks:
@@ -17,13 +18,18 @@ interface taskState {
         }
       ]
     | []
-  status: 'idle' | 'loading' | 'sucess' | 'failed'
+  status: {
+    fetch: asyncStatus
+    create?: asyncStatus
+    update?: asyncStatus
+    delete?: asyncStatus
+  }
   error?: any
 }
 
 const initialState = {
   tasks: [],
-  status: 'idle',
+  status: { fetch: 'idle' },
 } as taskState
 
 export const createTask = createAsyncThunk(
@@ -49,24 +55,26 @@ export const tasksSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder.addCase(fetchTasks.fulfilled, (state, { payload }) => {
-      state.status = 'sucess'
+      state.status.fetch = 'sucess'
       payload && (state.tasks = payload)
     })
     builder.addCase(fetchTasks.pending, (state) => {
-      state.status = 'loading'
+      state.status.fetch = 'loading'
+      state.error && delete state.error
     })
     builder.addCase(fetchTasks.rejected, (state) => {
-      state.status = 'failed'
+      state.status.fetch = 'failed'
     })
     builder.addCase(createTask.fulfilled, (state) => {
-      state.status = 'sucess'
+      state.status.create = 'sucess'
     })
     builder.addCase(createTask.rejected, (state, { payload }) => {
-      state.status = 'failed'
+      state.status.create = 'failed'
       state.error = payload
     })
     builder.addCase(createTask.pending, (state) => {
-      state.status = 'loading'
+      state.status.create = 'loading'
+      state.error && delete state.error
     })
   },
 })

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import authService from '../../../services/auth.services'
-import { DataLogin, DataRegister } from '../../../utils/interface'
+import { asyncStatus, DataLogin, DataRegister } from '../../../utils/interface'
 
 interface userState {
   user: {
@@ -10,9 +10,9 @@ interface userState {
     id?: string
   }
   status: {
-    login: 'idle' | 'loading' | 'sucess' | 'failed'
-    update: 'idle' | 'loading' | 'sucess' | 'failed'
-    register: 'idle' | 'loading' | 'sucess' | 'failed'
+    login: asyncStatus
+    update: asyncStatus
+    register: asyncStatus
   }
   error?: any
   isLoggedIn: boolean

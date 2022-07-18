@@ -17,3 +17,5 @@ export interface DataRegister extends DataLogin {
   name?: string
   passwordConfirm?: string
 }
+
+export type asyncStatus = 'idle' | 'loading' | 'sucess' | 'failed'
