@@ -1,4 +1,4 @@
-export default function authHeader() {
+export function authHeader() {
   if (localStorage.getItem('@whatsNext-userToken')) {
     return {
       headers: {

@@ -1,6 +1,6 @@
 import { DataLogin, DataRegister } from '../utils/interface'
 import { api } from './api'
-import authHeader from './auth.header'
+import { authHeader } from './auth.header'
 
 const saveToken = (acessToken: string, userId: string) => {
   localStorage.setItem('@whatsNext-userToken', acessToken)
