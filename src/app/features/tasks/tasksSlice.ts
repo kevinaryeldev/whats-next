@@ -67,6 +67,7 @@ export const tasksSlice = createSlice({
     })
     builder.addCase(createTask.fulfilled, (state) => {
       state.status.create = 'sucess'
+      state.status.fetch = 'idle'
     })
     builder.addCase(createTask.rejected, (state, { payload }) => {
       state.status.create = 'failed'
