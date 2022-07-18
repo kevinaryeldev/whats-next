@@ -14,8 +14,10 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  useToast,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { createTask } from '../../../../app/features/tasks/tasksSlice'
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
@@ -24,10 +26,12 @@ import { createTaskSchema } from '../../../../utils/shemas/tasks'
 
 const TaskCreate = (props: any) => {
   const taskSelector = useAppSelector((state) => state.tasks)
+  const toast = useToast()
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({ resolver: yupResolver(createTaskSchema) })
 
   const dispatch = useAppDispatch()
@@ -35,8 +39,27 @@ const TaskCreate = (props: any) => {
   const submitTask = (data: any) => {
     data.userId = getId()
     dispatch(createTask(data))
-    console.log(data)
   }
+
+  useEffect(() => {
+    if (taskSelector.status.create === 'sucess') {
+      toast({
+        title: 'Tarefa criada com sucesso',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+      reset()
+    } else if (taskSelector.status.create === 'failed') {
+      toast({
+        title: 'Erro na criação da tarefa',
+        description: taskSelector?.error,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      })
+    }
+  }, [taskSelector.status.create])
 
   return (
     <>
@@ -131,7 +154,7 @@ const TaskCreate = (props: any) => {
               )}
             </FormControl>
             <Center gap="5">
-              {taskSelector.status === 'loading' ? (
+              {taskSelector.status.create === 'loading' ? (
                 <Button colorScheme="facebook" isLoading />
               ) : (
                 <Button type="submit" colorScheme={'facebook'}>
