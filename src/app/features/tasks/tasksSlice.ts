@@ -48,7 +48,32 @@ export const fetchTasks = createAsyncThunk('tasks/get', async (thunkApi) => {
     return resp
   })
 })
-
+export const deleteTask = createAsyncThunk(
+  'task/delete',
+  async (id: number, thunkApi) => {
+    return await api
+      .delete(`/tasks/${id}`, authHeader())
+      .then((response) => {
+        return response
+      })
+      .catch((e) => {
+        thunkApi.rejectWithValue(e.response?.data)
+      })
+  }
+)
+export const editTask = createAsyncThunk(
+  'tasks/edit',
+  async (data: any, thunkApi) => {
+    return await api
+      .patch(`/tasks/${data.id}`, data, authHeader())
+      .then((response) => {
+        return response
+      })
+      .catch((e) => {
+        thunkApi.rejectWithValue(e.response?.data)
+      })
+  }
+)
 export const tasksSlice = createSlice({
   name: 'tasks',
   initialState: initialState,
@@ -76,6 +101,30 @@ export const tasksSlice = createSlice({
     builder.addCase(createTask.pending, (state) => {
       state.status.create = 'loading'
       state.error && delete state.error
+    })
+    builder.addCase(deleteTask.rejected, (state, { payload }) => {
+      state.status.delete = 'failed'
+      state.error = payload
+    })
+    builder.addCase(deleteTask.fulfilled, (state) => {
+      state.status.delete = 'sucess'
+      state.status.fetch = 'idle'
+    })
+    builder.addCase(deleteTask.pending, (state) => {
+      state.status.delete = 'loading'
+      delete state?.error
+    })
+    builder.addCase(editTask.rejected, (state, { payload }) => {
+      state.status.update = 'failed'
+      state.error = payload
+    })
+    builder.addCase(editTask.fulfilled, (state) => {
+      state.status.update = 'sucess'
+      state.status.fetch = 'idle'
+    })
+    builder.addCase(editTask.pending, (state) => {
+      state.status.update = 'loading'
+      delete state?.error
     })
   },
 })

@@ -4,10 +4,13 @@ import ModalDelete from './components/ModalDelete'
 
 const TaskCard = ({ task }: any) => {
   const taskDelete = useDisclosure()
-
   return (
     <>
-      <ModalDelete isOpen={taskDelete.isOpen} onClose={taskDelete.onClose} />
+      <ModalDelete
+        isOpen={taskDelete.isOpen}
+        onClose={taskDelete.onClose}
+        taskId={task.id}
+      />
       <Box
         as="section"
         maxH={['md']}
