@@ -54,7 +54,7 @@ export const deleteTask = createAsyncThunk(
     return await api
       .delete(`/tasks/${id}`, authHeader())
       .then((response) => {
-        return response
+        return
       })
       .catch((e) => {
         thunkApi.rejectWithValue(e.response?.data)
@@ -67,7 +67,7 @@ export const editTask = createAsyncThunk(
     return await api
       .patch(`/tasks/${data.id}`, data, authHeader())
       .then((response) => {
-        return response
+        return
       })
       .catch((e) => {
         thunkApi.rejectWithValue(e.response?.data)
@@ -77,7 +77,9 @@ export const editTask = createAsyncThunk(
 export const tasksSlice = createSlice({
   name: 'tasks',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    resetState: (state) => initialState,
+  },
   extraReducers(builder) {
     builder.addCase(fetchTasks.fulfilled, (state, { payload }) => {
       state.status.fetch = 'sucess'
