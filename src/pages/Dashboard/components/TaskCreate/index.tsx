@@ -39,6 +39,7 @@ const TaskCreate = (props: any) => {
   const submitTask = (data: any) => {
     data.userId = getId()
     dispatch(createTask(data))
+    setTimeout(props.onClose, 1000)
   }
 
   useEffect(() => {
@@ -66,7 +67,7 @@ const TaskCreate = (props: any) => {
       <Modal
         isOpen={props.isOpen}
         onClose={props.onClose}
-        size={['md', 'lg', 'xl']}
+        size={['xs', 'md', 'lg']}
       >
         <ModalOverlay />
         <ModalContent paddingY="5" paddingX="4">
@@ -145,7 +146,8 @@ const TaskCreate = (props: any) => {
                 type="text"
                 borderColor={'messenger.300'}
                 {...register('initialDate')}
-                width="xs"
+                maxWidth={['35%', '25%', '22%']}
+                maxLength={5}
               />
               {!!errors.initialDate && (
                 <FormErrorMessage color={'alertL.100'}>
