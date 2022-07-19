@@ -9,40 +9,16 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useToast,
 } from '@chakra-ui/react'
-import { useEffect } from 'react'
 import { deleteTask } from '../../../../app/features/tasks/tasksSlice'
-import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
+import { useAppDispatch } from '../../../../app/hooks'
 
 const ModalDelete = (props: any) => {
   const dispatch = useAppDispatch()
-  const toast = useToast()
-  const taskSelector = useAppSelector((state) => state.tasks)
 
   const handleDelete = () => {
     dispatch(deleteTask(props.taskId))
-    console.log(props.taskId)
   }
-
-  useEffect(() => {
-    if (taskSelector.status.delete === 'sucess') {
-      toast({
-        title: 'Tarefa deletada com sucesso',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-    } else if (taskSelector.status.delete === 'failed') {
-      toast({
-        title: 'Erro durante a exclusão da tarefa',
-        status: 'error',
-        description: taskSelector?.error,
-        duration: 3000,
-        isClosable: true,
-      })
-    }
-  }, [taskSelector.status.delete])
 
   return (
     <>
@@ -75,11 +51,3 @@ const ModalDelete = (props: any) => {
 }
 
 export default ModalDelete
-function toast(arg0: {
-  title: string
-  status: string
-  duration: number
-  isClosable: boolean
-}) {
-  throw new Error('Function not implemented.')
-}
