@@ -1,6 +1,6 @@
 # whats-next
 
-Essa é uma ToDo list criada utilizando Redux toolkit
+Essa é uma To do list criada utilizando Redux toolkit para organizar a store e disparar as requisições HTTP 
 
 ## Detailhes
 
