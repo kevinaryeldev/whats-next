@@ -2,10 +2,12 @@
 
 Essa é uma ToDo list criada utilizando Redux toolkit
 
-<div> Most Used Language:  <img src="https://img.shields.io/github/languages/top/kevinaryeldev/portifolio-v1?style=social"  />
+<div> Most Used Language:  <img src="https://img.shields.io/github/languages/top/kevinaryeldev/
+whats-next?style=social"  />
 
 </div>
-<img src="https://img.shields.io/github/last-commit/kevinaryeldev/portifolio-v1?style=social"  />
+<img src="https://img.shields.io/github/last-commit/kevinaryeldev/
+whats-next?style=social"  />
 
 
 ## Detailhes
